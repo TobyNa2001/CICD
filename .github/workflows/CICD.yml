@@ -59,32 +59,20 @@ jobs:
            cd Frontend/angular
            npx ng build
 
-      - name: Archive Frontend build
-        env:
-            # Accessing the secret variable
-            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
-        uses: actions/upload-artifact@v2
-        with:
-           name: frontend-artifact
-           path: "${{ github.workspace }}/Frontend/angular/dist"
-           
-      - name: Download Frontend artifact
-        uses: actions/download-artifact@v2
-        with:
-            name: frontend-artifact
-            path: frontend-dist
+      - name: Display contents of Frontend/angular/dist before copying
+        run: ls -R "${{ github.workspace }}/Frontend/angular/dist"
 
-      - name: Copy Frontend build to FrontendDist
+      - name: Copy Frontend build to FBUILD_PATH
         env:
-            # Accessing the secret variable
-            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
-        run: cp -R frontend-dist/* "${{ github.workspace }}/${FBUILD_PATH}"
-      
-      - name: Display contents of FrontendDist
+          # Accessing the secret variable
+          FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        run: cp -R "${{ github.workspace }}/Frontend/angular/dist" "${{ github.workspace }}/${FBUILD_PATH}"
+
+      - name: Display contents of FrontendDist after copying
         env:
-            # Accessing the secret variable
-            FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
-        run: ls -R "${{ github.workspace }}/${FBUILD_PATH}"   
+          # Accessing the secret variable
+          FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
+        run: ls -R "${{ github.workspace }}/${FBUILD_PATH}"
         
   Backend:
     needs: [Frontend]
