@@ -76,6 +76,12 @@ jobs:
           FBUILD_PATH: ${{ secrets.BUILD_FRONTEND }}
         run: ls -R "${{ github.workspace }}/${FBUILD_PATH}"
         
+      - name: Archive Backend
+        uses: actions/upload-artifact@v2
+        with:
+           name: backend-artifact
+           path: "${{ github.workspace }}/Backend"
+         
   Backend:
     needs: [Frontend]
     runs-on: ubuntu-latest
@@ -116,10 +122,16 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-
+      
+      - name: Download Backend artifact
+        uses: actions/download-artifact@v2
+        with:
+            name: backend-artifact
+            path: backend-dist
+          
       - name: Deploy Backend to IIS
         run: |
-          cd "${GITHUB_WORKSPACE}/Backend/aspnet-core/src/CompanyWebsite.Web.Host"
+          cd Backend/aspnet-core/src/CompanyWebsite.Web.Host
           #dotnet publish CompanyWebsite.Web.Host.csproj /p:PublishProfile=./Properties/PublishProfiles/IISProfile.pubxml --configuration Release 
           dotnet publish CompanyWebsite.Web.Host.csproj --configuration Release --output ./publish /p:WebPublishMethod=MSDeploy /p:DeployIisAppPath="${{ secrets.IIS_NAME }}" /p:MSDeployServiceURL="${{ secrets.IIS_URL }}" /p:UserName="${{ secrets.IIS_USERNAME}}" /p:Password="${{ secrets.IIS_PASSWORD}}" /p:AllowUntrustedCertificate=true
           
