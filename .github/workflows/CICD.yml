@@ -24,12 +24,6 @@ jobs:
           
       - name: Checkout Repository
         uses: actions/checkout@v2
-      
-      - name: Build Frontend
-        env:
-            # Accessing the secret variable
-            FTEST_PATH: ${{ secrets.FRONTEND_SOLUTION_PATH }}
-        run: dotnet build "${GITHUB_WORKSPACE}/${FTEST_PATH}"
     
       - name: Npm install
         run: |
