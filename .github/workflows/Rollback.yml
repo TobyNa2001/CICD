@@ -22,7 +22,7 @@ jobs:
         with: 
           ref: ${{ steps.latest.outputs.tag_name }}
       - name: Build and Check then Publish Production
-        uses: ./actions/rollback-to-previous-latest
+        uses: ./actions/rollback-to-previous-latest/action.yml
         
       - name: Deployed Production
         run: echo "Deployed Production"
