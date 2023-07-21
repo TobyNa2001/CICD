@@ -22,7 +22,7 @@ jobs:
       - name: Build and Check then Publish Production
         uses: ./.github/actions/rollback
         with:
-          publish: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Deployed Production
         run: echo "Deployed Production"
