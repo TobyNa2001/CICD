@@ -3,6 +3,7 @@ name: "Rollback To Latest Release"
 on: 
   release:
     types: [deleted]
+  workflow_dispatch:
 
 jobs:
   deploy-on-release:
