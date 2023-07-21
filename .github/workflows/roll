@@ -3,7 +3,6 @@ name: "Rollback"
 on: 
   release:
     types: [deleted]
-  workflow_dispatch:
 
 jobs:
   deploy-on-release:
