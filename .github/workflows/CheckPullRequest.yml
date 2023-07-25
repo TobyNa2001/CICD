@@ -91,6 +91,7 @@ jobs:
         run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
 
       - name: automerge
-        uses: "pascalgn/automerge-action@v0.15.6"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        uses: juliangruber/merge-pull-request-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: 1
