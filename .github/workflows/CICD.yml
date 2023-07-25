@@ -1,9 +1,9 @@
 name: CICD
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+       main
  
 jobs: 
   Frontend:
