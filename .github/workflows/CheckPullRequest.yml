@@ -89,3 +89,8 @@ jobs:
           # Accessing the secret variable
           TEST_PATH: ${{ secrets.BACKEND_TEST_PATH }}
         run: dotnet test "${GITHUB_WORKSPACE}/${TEST_PATH}"
+
+      - name: automerge
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
