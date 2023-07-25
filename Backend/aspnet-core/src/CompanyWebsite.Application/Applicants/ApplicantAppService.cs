@@ -41,12 +41,12 @@ namespace CompanyWebsite.Applicants
 
         // GET
         [DontWrapResult]
-        public async Task<List<ApplicantDto>> GetAllApplicant()
+        public async Task<List<ApplicantDto>> GetAllApplicantTESTNYC()
         {
             List<Applicant> applicants = await _applicantManager.GetAllApplicantAsync();
 
             var applicantDtos = ObjectMapper.Map<List<ApplicantDto>>(applicants);
-            return new List<ApplicantDto>(applicantDtos);
+            return new ;
         }
 
         [DontWrapResult]
