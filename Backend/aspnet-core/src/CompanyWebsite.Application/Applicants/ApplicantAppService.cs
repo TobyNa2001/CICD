@@ -46,7 +46,7 @@ namespace CompanyWebsite.Applicants
             List<Applicant> applicants = await _applicantManager.GetAllApplicantAsync();
 
             var applicantDtos = ObjectMapper.Map<List<ApplicantDto>>(applicants);
-            return new ;
+            return new List<ApplicantDto>(applicantDtos);
         }
 
         [DontWrapResult]
