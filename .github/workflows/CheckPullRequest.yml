@@ -1,0 +1,57 @@
+name: Check Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+ 
+jobs: 
+  Frontend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0']
+    steps:
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+    
+      - name: Npm install
+        run: |
+            cd Frontend/angular
+            npm install
+            
+      - name: Npmstart
+        id: start-app
+        run: |
+          cd Frontend/angular
+      
+          output_file=$(mktemp)
+      
+          npm start > "$output_file" 2>&1 &
+      
+          start_pid=$!
+      
+          sleep 120
+      
+          if ps -p $start_pid > /dev/null; then
+            kill $start_pid
+          fi
+      
+          if grep -qi "error" "$output_file"; then
+            echo "npm start encountered an error."
+            exit 1
+          else
+            echo "npm start completed without errors."
+          fi
+      
+          rm "$output_file"
